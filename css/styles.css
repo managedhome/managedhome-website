@@ -97,6 +97,18 @@ p  { color: var(--charcoal); }
 section { padding: var(--section) 0; }
 .center { text-align: center; }
 
+/* ---------- Demo banner ---------- */
+.demo-banner {
+  background: var(--ink);
+  color: var(--bone);
+  text-align: center;
+  padding: 0.6rem 1rem;
+  font-size: 0.7rem;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
 /* ---------- Header / Nav ---------- */
 .site-header {
   position: sticky;
