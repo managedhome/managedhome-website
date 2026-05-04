@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Apply to Join — ManagedHome</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<header class="site-header">
+  <nav class="nav">
+    <a href="index.html" class="brand">Managed<span>Home</span></a>
+    <ul class="nav-links">
+      <li><a href="browse.html">Browse Professionals</a></li>
+      <li><a href="apply.html" class="active">For Professionals</a></li>
+      <li><a href="how-it-works.html">How It Works</a></li>
+      <li><a href="about.html">About</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="login.html" class="btn btn-sm btn-ghost" data-auth-show="out">Sign In</a>
+      <a href="signup.html" class="btn btn-sm btn-primary" data-auth-show="out">Join</a>
+      <a href="dashboard-homeowner.html" class="btn btn-sm btn-ghost" data-auth-show="homeowner">My Dashboard</a>
+      <a href="dashboard-pro.html"        class="btn btn-sm btn-ghost" data-auth-show="pro">My Dashboard</a>
+      <button class="nav-toggle" aria-label="Menu">≡</button>
+    </div>
+  </nav>
+</header>
+
+<section class="page-banner">
+  <div class="container">
+    <span class="eyebrow">For Household Professionals</span>
+    <h1>A career, considered.</h1>
+    <p>ManagedHome introduces you to families seeking long, stable, well-compensated relationships. Apply once. We will review personally.</p>
+  </div>
+</section>
+
+<section>
+  <div class="container" style="max-width: 980px;">
+    <div class="steps" style="grid-template-columns: repeat(3, 1fr); margin-bottom: 4rem;">
+      <div class="step"><span class="step-num">I</span><h3>Apply</h3><p>Tell us about your work. We review every application personally.</p></div>
+      <div class="step"><span class="step-num">II</span><h3>Interview</h3><p>We meet by phone or video, then review references and credentials.</p></div>
+      <div class="step"><span class="step-num">III</span><h3>Match</h3><p>You appear in the directory. Families reach out — discreetly.</p></div>
+    </div>
+
+    <div id="apply-success" class="empty" style="display:none;">
+      <h3>Thank you. Your application is received.</h3>
+      <p>We will respond within two business days. In the meantime, you may <a href="signup.html">create an account</a> to track your application.</p>
+    </div>
+
+    <form id="apply-form" class="form">
+      <div>
+        <span class="eyebrow">Step 1 of 1 · Application</span>
+        <h2 style="margin-top:.5rem;">Tell us about you.</h2>
+      </div>
+
+      <div class="form-row">
+        <div class="field"><label for="first">First Name</label><input id="first" required></div>
+        <div class="field"><label for="last">Last Name</label><input id="last" required></div>
+      </div>
+      <div class="form-row">
+        <div class="field"><label for="email">Email</label><input id="email" type="email" required></div>
+        <div class="field"><label for="phone">Phone</label><input id="phone" type="tel" required></div>
+      </div>
+      <div class="form-row">
+        <div class="field">
+          <label for="role">Role</label>
+          <select id="role" required>
+            <option value="">Choose a role…</option>
+          </select>
+        </div>
+        <div class="field"><label for="city">City of Service</label><input id="city" placeholder="Greenwich, CT" required></div>
+      </div>
+      <div class="form-row">
+        <div class="field"><label for="years">Years of Experience</label><input id="years" type="number" min="0" max="60" required></div>
+        <div class="field"><label for="rate">Desired Rate (USD/hr)</label><input id="rate" type="number" min="20" max="500" required></div>
+      </div>
+      <div class="field">
+        <label for="languages">Languages</label>
+        <input id="languages" placeholder="English, French" required>
+      </div>
+      <div class="field">
+        <label for="specialties">Specialties</label>
+        <input id="specialties" placeholder="e.g. Estate Openings, Wine Cellar, Vendor Relations" required>
+        <span class="field-help">Comma-separated. Three to six is ideal.</span>
+      </div>
+      <div class="field">
+        <label for="bio">Brief Biography</label>
+        <textarea id="bio" minlength="80" placeholder="A few sentences on your background, training, and the kind of household you wish to serve." required></textarea>
+      </div>
+      <div class="field">
+        <label for="references">References</label>
+        <textarea id="references" placeholder="Two or three references with name, role, and contact." required></textarea>
+      </div>
+      <div class="checkbox-row">
+        <input type="checkbox" id="agree" required>
+        <label for="agree" style="text-transform:none; letter-spacing:0; color:var(--charcoal); font-size:.9rem;">I agree to a background and reference check, and to ManagedHome's <a href="about.html#privacy" style="border-bottom:1px solid var(--ink);">privacy practices</a>.</label>
+      </div>
+
+      <button type="submit" class="btn btn-primary" style="align-self:flex-start;">Submit Application</button>
+    </form>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div><div class="footer-brand">ManagedHome</div><p>A members' platform for household service. Quiet. Vetted. Considered.</p></div>
+      <div><h4>Homeowners</h4><ul><li><a href="browse.html">Browse Professionals</a></li><li><a href="how-it-works.html">How It Works</a></li><li><a href="signup.html">Create Account</a></li></ul></div>
+      <div><h4>Professionals</h4><ul><li><a href="apply.html">Apply</a></li><li><a href="how-it-works.html">Standards</a></li><li><a href="login.html">Sign In</a></li></ul></div>
+      <div><h4>Company</h4><ul><li><a href="about.html">About</a></li><li><a href="about.html#contact">Contact</a></li><li><a href="about.html#privacy">Privacy</a></li></ul></div>
+    </div>
+    <div class="footer-bottom"><span>© 2026 ManagedHome. All rights reserved.</span><span>Made for households that endure.</span></div>
+  </div>
+</footer>
+
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+<script>
+  const roleSel = document.getElementById('role');
+  (window.MH_TRADES || []).forEach(t => {
+    const o = document.createElement('option');
+    o.value = t.id; o.textContent = t.label;
+    roleSel.appendChild(o);
+  });
+
+  document.getElementById('apply-form').addEventListener('submit', e => {
+    e.preventDefault();
+    const app = {
+      firstName: document.getElementById('first').value.trim(),
+      lastName:  document.getElementById('last').value.trim(),
+      email:     document.getElementById('email').value.trim(),
+      phone:     document.getElementById('phone').value.trim(),
+      trade:     document.getElementById('role').value,
+      city:      document.getElementById('city').value.trim(),
+      years:     +document.getElementById('years').value,
+      rate:      +document.getElementById('rate').value,
+      languages: document.getElementById('languages').value.split(',').map(s=>s.trim()).filter(Boolean),
+      specialties: document.getElementById('specialties').value.split(',').map(s=>s.trim()).filter(Boolean),
+      bio:        document.getElementById('bio').value.trim(),
+      references: document.getElementById('references').value.trim(),
+    };
+    MH.addApplication(app);
+
+    // Auto-create a pro account so they can see their dashboard
+    MH.signIn({
+      role: 'pro',
+      name: `${app.firstName} ${app.lastName}`,
+      email: app.email,
+      city: app.city,
+      trade: app.trade,
+      rate: app.rate,
+      years: app.years,
+      languages: app.languages,
+      specialties: app.specialties,
+      bio: app.bio,
+    });
+
+    document.getElementById('apply-form').style.display = 'none';
+    document.getElementById('apply-success').style.display = 'block';
+    MH.toast('Application received. Account created.');
+    setTimeout(() => location.href = 'dashboard-pro.html', 1800);
+  });
+</script>
+</body>
+</html>

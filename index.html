@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ManagedHome — A Considered Approach to Household Service</title>
+  <meta name="description" content="A refined platform connecting discerning homeowners with vetted household professionals — house managers, private chefs, estate staff, and more.">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<!-- ============== HEADER ============== -->
+<header class="site-header">
+  <nav class="nav">
+    <a href="index.html" class="brand">Managed<span>Home</span></a>
+    <ul class="nav-links">
+      <li><a href="browse.html">Browse Professionals</a></li>
+      <li><a href="apply.html">For Professionals</a></li>
+      <li><a href="how-it-works.html">How It Works</a></li>
+      <li><a href="about.html">About</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="login.html" class="btn btn-sm btn-ghost" data-auth-show="out">Sign In</a>
+      <a href="signup.html" class="btn btn-sm btn-primary" data-auth-show="out">Join</a>
+      <a href="dashboard-homeowner.html" class="btn btn-sm btn-ghost" data-auth-show="homeowner">My Dashboard</a>
+      <a href="dashboard-pro.html"        class="btn btn-sm btn-ghost" data-auth-show="pro">My Dashboard</a>
+      <button class="nav-toggle" aria-label="Menu">≡</button>
+    </div>
+  </nav>
+</header>
+
+<!-- ============== HERO ============== -->
+<section class="hero" style="background-image:url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=2000&q=85&auto=format&fit=crop');">
+  <div class="hero-content container">
+    <span class="eyebrow">Household Service · Reimagined</span>
+    <h1>The home you keep deserves to be kept beautifully.</h1>
+    <p>A considered marketplace for the people who care for fine homes — and the families who depend on them. Vetted. Quiet. Refined.</p>
+    <div class="hero-actions">
+      <a href="browse.html" class="btn btn-light">Browse Professionals</a>
+      <a href="apply.html" class="btn btn-light btn-ghost">Apply as a Professional</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============== TWO PATHS ============== -->
+<section>
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Two Paths · One Standard</span>
+      <h2>Whether you keep the home, or live in it.</h2>
+      <p>Built for the way fine households actually work — with discretion, professionalism, and care for the lasting relationship between principal and staff.</p>
+    </div>
+    <div class="split">
+      <a href="browse.html" class="split-card" style="background-image:url('https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=1200&q=80&auto=format&fit=crop');">
+        <div class="split-card-inner">
+          <span class="eyebrow" style="color:rgba(245,241,234,0.85);">For Homeowners</span>
+          <h3>Find Your Household</h3>
+          <p>Browse profiles of vetted professionals. Read references. Hire on your terms.</p>
+          <span class="btn btn-light">Begin a Search</span>
+        </div>
+      </a>
+      <a href="apply.html" class="split-card" style="background-image:url('https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1200&q=80&auto=format&fit=crop');">
+        <div class="split-card-inner">
+          <span class="eyebrow" style="color:rgba(245,241,234,0.85);">For Professionals</span>
+          <h3>Find Your Position</h3>
+          <p>Be matched with families who value your craft. Manage your career privately.</p>
+          <span class="btn btn-light">Apply to Join</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============== FEATURED PROS ============== -->
+<section style="background:var(--ivory);">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Selected Profiles</span>
+      <h2>A few of the professionals on the platform.</h2>
+      <p>Each is interviewed personally, background-checked, and reference-verified. We accept fewer than one in eight applicants.</p>
+    </div>
+    <div class="pro-grid" id="featured-grid"></div>
+    <div style="text-align:center; margin-top:3rem;">
+      <a href="browse.html" class="btn">View All Professionals</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============== HOW IT WORKS ============== -->
+<section>
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">A Quiet Process</span>
+      <h2>How it works.</h2>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <span class="step-num">I</span>
+        <h3>Tell us your needs</h3>
+        <p>Share the role, household size, residences, and the qualities that matter most. Discreet from the start.</p>
+      </div>
+      <div class="step">
+        <span class="step-num">II</span>
+        <h3>Review profiles</h3>
+        <p>Browse curated candidates. Each profile is built from interviews, references, and verification — not algorithms alone.</p>
+      </div>
+      <div class="step">
+        <span class="step-num">III</span>
+        <h3>Hire with confidence</h3>
+        <p>Schedule introductions, request trials, and finalize terms — all from a single, private dashboard.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== TESTIMONIAL ============== -->
+<section style="background:var(--cream);">
+  <div class="container">
+    <div class="testimonial">
+      <span class="eyebrow" style="display:block; margin-bottom:1.5rem;">From Our Members</span>
+      <blockquote id="testimonial-quote">"ManagedHome introduced us to a house manager who has transformed daily life."</blockquote>
+      <cite id="testimonial-cite">Catherine M. · Greenwich, CT</cite>
+    </div>
+  </div>
+</section>
+
+<!-- ============== CTA STRIP ============== -->
+<section class="cta-strip">
+  <h2>Begin a search, or begin a career.</h2>
+  <p>Membership is by application. We will respond within two business days.</p>
+  <div style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap;">
+    <a href="signup.html" class="btn btn-light btn-primary" style="background:var(--bone); color:var(--ink); border-color:var(--bone);">Create an Account</a>
+    <a href="how-it-works.html" class="btn btn-light">Learn More</a>
+  </div>
+</section>
+
+<!-- ============== FOOTER ============== -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">ManagedHome</div>
+        <p>A members' platform for household service. Quiet. Vetted. Considered.</p>
+      </div>
+      <div>
+        <h4>Homeowners</h4>
+        <ul>
+          <li><a href="browse.html">Browse Professionals</a></li>
+          <li><a href="how-it-works.html">How It Works</a></li>
+          <li><a href="signup.html">Create Account</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Professionals</h4>
+        <ul>
+          <li><a href="apply.html">Apply</a></li>
+          <li><a href="how-it-works.html">Standards</a></li>
+          <li><a href="login.html">Sign In</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <ul>
+          <li><a href="about.html">About</a></li>
+          <li><a href="about.html#contact">Contact</a></li>
+          <li><a href="about.html#privacy">Privacy</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 ManagedHome. All rights reserved.</span>
+      <span>Made for households that endure.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+<script>
+  // featured pros
+  const featured = (window.MH_PROS || []).slice(0, 4);
+  document.getElementById('featured-grid').innerHTML = featured.map(p => `
+    <a href="professional.html?id=${p.id}" class="pro-card">
+      <div class="pro-card-img" style="background-image:url('${p.photo}')"></div>
+      <div class="pro-card-body">
+        <div class="pro-card-name">${escapeHtml(p.name)}</div>
+        <div class="pro-card-trade">${escapeHtml(MH.trade(p.trade))} · ${escapeHtml(p.city)}</div>
+        <div class="pro-card-meta">
+          <span class="pro-card-rating">★ ${p.rating} <span class="muted">(${p.reviews})</span></span>
+          <span class="pro-card-rate">$${p.rate}/hr</span>
+        </div>
+      </div>
+    </a>
+  `).join('');
+
+  // rotating testimonial
+  const tList = window.MH_TESTIMONIALS || [];
+  if (tList.length) {
+    let i = 0;
+    const q = document.getElementById('testimonial-quote');
+    const c = document.getElementById('testimonial-cite');
+    const cycle = () => {
+      const t = tList[i];
+      q.textContent = '"' + t.quote + '"';
+      c.textContent = `${t.name} · ${t.city}`;
+      i = (i + 1) % tList.length;
+    };
+    cycle();
+    setInterval(cycle, 6000);
+  }
+</script>
+</body>
+</html>

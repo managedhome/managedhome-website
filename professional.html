@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Professional Profile — ManagedHome</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<header class="site-header">
+  <nav class="nav">
+    <a href="index.html" class="brand">Managed<span>Home</span></a>
+    <ul class="nav-links">
+      <li><a href="browse.html" class="active">Browse Professionals</a></li>
+      <li><a href="apply.html">For Professionals</a></li>
+      <li><a href="how-it-works.html">How It Works</a></li>
+      <li><a href="about.html">About</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="login.html" class="btn btn-sm btn-ghost" data-auth-show="out">Sign In</a>
+      <a href="signup.html" class="btn btn-sm btn-primary" data-auth-show="out">Join</a>
+      <a href="dashboard-homeowner.html" class="btn btn-sm btn-ghost" data-auth-show="homeowner">My Dashboard</a>
+      <a href="dashboard-pro.html"        class="btn btn-sm btn-ghost" data-auth-show="pro">My Dashboard</a>
+      <button class="nav-toggle" aria-label="Menu">≡</button>
+    </div>
+  </nav>
+</header>
+
+<section style="padding: 3rem 0 2rem;">
+  <div class="container">
+    <div style="margin-bottom: 2rem;">
+      <a href="browse.html" class="muted" style="font-size:.78rem; letter-spacing:.18em; text-transform:uppercase;">← Back to Directory</a>
+    </div>
+
+    <div id="profile-root"></div>
+  </div>
+</section>
+
+<!-- ============== HIRE MODAL ============== -->
+<div id="hire-modal" style="display:none; position:fixed; inset:0; background:rgba(26,24,20,.55); z-index:200; align-items:center; justify-content:center; padding:2rem;">
+  <div style="background:var(--bone); max-width:560px; width:100%; padding:3rem; border:1px solid var(--line);">
+    <span class="eyebrow" style="display:block; margin-bottom:1rem;">Request Introduction</span>
+    <h2 id="hire-modal-title" style="margin-bottom:.75rem;">Hire</h2>
+    <p class="muted" style="margin-bottom:2rem;">Send a private inquiry. We'll coordinate the introduction.</p>
+    <form id="hire-form" class="form" style="background:transparent; padding:0; border:none;">
+      <div class="field">
+        <label for="hire-start">Start Date</label>
+        <input id="hire-start" type="date" required>
+      </div>
+      <div class="field">
+        <label for="hire-engagement">Engagement</label>
+        <select id="hire-engagement" required>
+          <option value="full-time">Full-time, live-out</option>
+          <option value="live-in">Full-time, live-in</option>
+          <option value="part-time">Part-time</option>
+          <option value="seasonal">Seasonal</option>
+          <option value="trial">Trial / Project</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="hire-message">Message</label>
+        <textarea id="hire-message" placeholder="Briefly describe your household and what you’re seeking…" required></textarea>
+      </div>
+      <div style="display:flex; gap:.75rem; justify-content:flex-end; margin-top:1rem;">
+        <button type="button" id="hire-cancel" class="btn btn-sm">Cancel</button>
+        <button type="submit" class="btn btn-sm btn-primary">Send Request</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div><div class="footer-brand">ManagedHome</div><p>A members' platform for household service. Quiet. Vetted. Considered.</p></div>
+      <div><h4>Homeowners</h4><ul><li><a href="browse.html">Browse Professionals</a></li><li><a href="how-it-works.html">How It Works</a></li><li><a href="signup.html">Create Account</a></li></ul></div>
+      <div><h4>Professionals</h4><ul><li><a href="apply.html">Apply</a></li><li><a href="how-it-works.html">Standards</a></li><li><a href="login.html">Sign In</a></li></ul></div>
+      <div><h4>Company</h4><ul><li><a href="about.html">About</a></li><li><a href="about.html#contact">Contact</a></li><li><a href="about.html#privacy">Privacy</a></li></ul></div>
+    </div>
+    <div class="footer-bottom"><span>© 2026 ManagedHome. All rights reserved.</span><span>Made for households that endure.</span></div>
+  </div>
+</footer>
+
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+<script>
+  const id = new URLSearchParams(location.search).get('id') || 'p001';
+  const pro = MH.pro(id);
+  const root = document.getElementById('profile-root');
+
+  if (!pro) {
+    root.innerHTML = `<div class="empty"><h3>Profile not found.</h3><p><a href="browse.html">Return to the directory</a>.</p></div>`;
+  } else {
+    const reviews = (window.MH_REVIEWS_BY_PRO[pro.id] || window.MH_REVIEWS_BY_PRO.default);
+    const saved = MH.isSaved(pro.id);
+
+    root.innerHTML = `
+      <div class="profile-hero">
+        <div class="profile-photo" style="background-image:url('${pro.photo}')"></div>
+        <div class="profile-info">
+          <span class="eyebrow">${escapeHtml(MH.trade(pro.trade))} · ${escapeHtml(pro.city)}</span>
+          <h1>${escapeHtml(pro.name)}</h1>
+          <p class="lede">${escapeHtml(pro.summary)}</p>
+
+          <div class="profile-meta">
+            <div><strong>Rating</strong>★ ${pro.rating} <span class="muted">(${pro.reviews} reviews)</span></div>
+            <div><strong>Experience</strong>${pro.years} years</div>
+            <div><strong>Rate</strong>$${pro.rate}/hr</div>
+            <div><strong>Languages</strong>${pro.languages.join(', ')}</div>
+            ${pro.verified ? '<div><strong>Verified</strong>Background &amp; references</div>' : ''}
+          </div>
+
+          <div style="display:flex; gap:.75rem; flex-wrap:wrap;">
+            <button id="hire-btn" class="btn btn-primary">Request Introduction</button>
+            <button id="save-btn" class="btn">${saved ? '♥ Saved' : '♡ Save Profile'}</button>
+            <button id="message-btn" class="btn btn-ghost">Send Message</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="profile-section">
+        <h3>Specialties</h3>
+        <div style="display:flex; flex-wrap:wrap; gap:.5rem; margin-top:1rem;">
+          ${pro.specialties.map(s => `<span class="tag">${escapeHtml(s)}</span>`).join('')}
+        </div>
+      </div>
+
+      <div class="profile-section">
+        <h3>Education &amp; Training</h3>
+        <p>${escapeHtml(pro.education)}</p>
+      </div>
+
+      <div class="profile-section">
+        <h3>References &amp; Reviews</h3>
+        ${reviews.map(r => `
+          <div class="review">
+            <div class="review-head">
+              <span>${escapeHtml(r.author)}</span>
+              <span class="review-stars">${'★'.repeat(r.stars)}${'☆'.repeat(5 - r.stars)} <span class="muted">${escapeHtml(r.date)}</span></span>
+            </div>
+            <p>${escapeHtml(r.body)}</p>
+          </div>
+        `).join('')}
+      </div>
+    `;
+
+    document.getElementById('save-btn').addEventListener('click', e => {
+      const newlySaved = MH.toggleSaved(pro.id);
+      e.currentTarget.textContent = newlySaved ? '♥ Saved' : '♡ Save Profile';
+      MH.toast(newlySaved ? 'Saved to your shortlist' : 'Removed from shortlist');
+    });
+
+    document.getElementById('message-btn').addEventListener('click', () => {
+      const u = MH.user();
+      if (!u) { MH.toast('Please sign in to send a message.'); setTimeout(()=>location.href='login.html', 900); return; }
+      const text = prompt(`Send a message to ${pro.name}:`);
+      if (text && text.trim()) {
+        MH.addMessage({ proId: pro.id, from: u.email, body: text.trim() });
+        MH.toast('Message sent privately.');
+      }
+    });
+
+    const modal = document.getElementById('hire-modal');
+    document.getElementById('hire-modal-title').textContent = `Hire ${pro.name}`;
+    document.getElementById('hire-btn').addEventListener('click', () => {
+      const u = MH.user();
+      if (!u) { MH.toast('Please sign in to request an introduction.'); setTimeout(()=>location.href='login.html', 900); return; }
+      modal.style.display = 'flex';
+    });
+    document.getElementById('hire-cancel').addEventListener('click', () => modal.style.display = 'none');
+    modal.addEventListener('click', e => { if (e.target === modal) modal.style.display = 'none'; });
+
+    document.getElementById('hire-form').addEventListener('submit', e => {
+      e.preventDefault();
+      MH.addHire({
+        proId: pro.id,
+        proName: pro.name,
+        proTrade: MH.trade(pro.trade),
+        homeowner: MH.user()?.email,
+        startDate: document.getElementById('hire-start').value,
+        engagement: document.getElementById('hire-engagement').value,
+        message: document.getElementById('hire-message').value,
+      });
+      modal.style.display = 'none';
+      MH.toast('Introduction requested. We will be in touch within 48 hours.');
+    });
+  }
+</script>
+</body>
+</html>

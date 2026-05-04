@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Homeowner Dashboard — ManagedHome</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<header class="site-header">
+  <nav class="nav">
+    <a href="index.html" class="brand">Managed<span>Home</span></a>
+    <ul class="nav-links">
+      <li><a href="browse.html">Browse Professionals</a></li>
+      <li><a href="apply.html">For Professionals</a></li>
+      <li><a href="how-it-works.html">How It Works</a></li>
+      <li><a href="about.html">About</a></li>
+    </ul>
+    <div class="nav-actions">
+      <span class="muted" style="font-size:.78rem; letter-spacing:.18em; text-transform:uppercase;" data-user-name>Member</span>
+      <button id="signout" class="btn btn-sm btn-ghost">Sign Out</button>
+      <button class="nav-toggle" aria-label="Menu">≡</button>
+    </div>
+  </nav>
+</header>
+
+<div class="dash">
+  <aside class="dash-side">
+    <h4>Your Account</h4>
+    <ul class="dash-nav">
+      <li><a href="#overview" class="active">Overview</a></li>
+      <li><a href="#shortlist">Saved Professionals</a></li>
+      <li><a href="#hires">Active Hires</a></li>
+      <li><a href="#messages">Messages</a></li>
+      <li><a href="browse.html">Browse Directory</a></li>
+    </ul>
+    <h4>Settings</h4>
+    <ul class="dash-nav">
+      <li><a href="#profile">Household Profile</a></li>
+      <li><a href="about.html#privacy">Privacy</a></li>
+    </ul>
+  </aside>
+
+  <main class="dash-main">
+    <div class="dash-head">
+      <div>
+        <span class="eyebrow">Homeowner</span>
+        <h1 style="margin-top:.5rem;">Welcome, <span data-user-name>Member</span>.</h1>
+      </div>
+      <a href="browse.html" class="btn btn-primary">Browse Professionals</a>
+    </div>
+
+    <div class="stat-grid" id="stat-grid"></div>
+
+    <section id="shortlist" style="padding:0; margin-bottom:3rem;">
+      <h2 style="margin-bottom:1.25rem;">Your Shortlist</h2>
+      <div id="shortlist-grid" class="pro-grid"></div>
+      <div id="shortlist-empty" class="empty" style="display:none;">
+        <h3>No saved professionals yet.</h3>
+        <p>Tap the heart on any profile in the <a href="browse.html" style="border-bottom:1px solid var(--ink);">directory</a> to save it.</p>
+      </div>
+    </section>
+
+    <section id="hires" style="padding:0; margin-bottom:3rem;">
+      <h2 style="margin-bottom:1.25rem;">Active Hires &amp; Inquiries</h2>
+      <div class="dash-card">
+        <ul class="dash-list" id="hires-list"></ul>
+        <div id="hires-empty" class="empty" style="display:none; border:none; padding:1.5rem 0;">
+          <h3 style="font-weight:400;">No introductions in motion.</h3>
+          <p>Request an introduction from any profile.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="messages" style="padding:0; margin-bottom:3rem;">
+      <h2 style="margin-bottom:1.25rem;">Messages</h2>
+      <div class="dash-card">
+        <ul class="dash-list" id="messages-list"></ul>
+        <div id="messages-empty" class="empty" style="display:none; border:none; padding:1.5rem 0;">
+          <h3 style="font-weight:400;">No messages yet.</h3>
+          <p>Start a conversation from a professional's profile.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="profile" style="padding:0;">
+      <h2 style="margin-bottom:1.25rem;">Household Profile</h2>
+      <form id="profile-form" class="form">
+        <div class="form-row">
+          <div class="field"><label for="hh-name">Household Name</label><input id="hh-name" placeholder="The Whitman Family"></div>
+          <div class="field"><label for="hh-city">Primary Residence</label><input id="hh-city" placeholder="Greenwich, CT"></div>
+        </div>
+        <div class="form-row">
+          <div class="field"><label for="hh-residences">Residences</label><input id="hh-residences" type="number" min="1" max="20" placeholder="2"></div>
+          <div class="field"><label for="hh-staff">Existing Staff</label><input id="hh-staff" type="number" min="0" max="50" placeholder="3"></div>
+        </div>
+        <div class="field"><label for="hh-notes">Notes for Placement Team</label><textarea id="hh-notes" placeholder="Anything we should know about your household preferences."></textarea></div>
+        <button type="submit" class="btn btn-primary" style="align-self:flex-start;">Save Profile</button>
+      </form>
+    </section>
+  </main>
+</div>
+
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+<script>
+  // require auth
+  const u = MH.user();
+  if (!u) location.href = 'login.html';
+  if (u && u.role !== 'homeowner') location.href = 'dashboard-pro.html';
+
+  document.getElementById('signout').addEventListener('click', () => MH.signOut());
+
+  // Stats
+  const saved = MH.saved();
+  const hires = MH.hires();
+  const messages = MH.messages();
+  document.getElementById('stat-grid').innerHTML = `
+    <div class="stat"><div class="stat-label">Saved</div><div class="stat-value mono-num">${saved.length}</div></div>
+    <div class="stat"><div class="stat-label">Active Inquiries</div><div class="stat-value mono-num">${hires.filter(h => h.status === 'pending').length}</div></div>
+    <div class="stat"><div class="stat-label">Hires</div><div class="stat-value mono-num">${hires.filter(h => h.status === 'hired').length}</div></div>
+    <div class="stat"><div class="stat-label">Messages</div><div class="stat-value mono-num">${messages.length}</div></div>
+  `;
+
+  // Shortlist
+  const shortlistGrid = document.getElementById('shortlist-grid');
+  const shortlistPros = saved.map(id => MH.pro(id)).filter(Boolean);
+  if (!shortlistPros.length) {
+    document.getElementById('shortlist-empty').style.display = 'block';
+  } else {
+    shortlistGrid.innerHTML = shortlistPros.map(p => `
+      <a href="professional.html?id=${p.id}" class="pro-card">
+        <div class="pro-card-img" style="background-image:url('${p.photo}')"></div>
+        <div class="pro-card-body">
+          <div class="pro-card-name">${escapeHtml(p.name)}</div>
+          <div class="pro-card-trade">${escapeHtml(MH.trade(p.trade))} · ${escapeHtml(p.city)}</div>
+          <div class="pro-card-meta"><span class="pro-card-rating">★ ${p.rating}</span><span class="pro-card-rate">$${p.rate}/hr</span></div>
+        </div>
+      </a>
+    `).join('');
+  }
+
+  // Hires
+  const hiresList = document.getElementById('hires-list');
+  if (!hires.length) {
+    document.getElementById('hires-empty').style.display = 'block';
+  } else {
+    hiresList.innerHTML = hires.slice().reverse().map(h => `
+      <li>
+        <div>
+          <div style="font-weight:500;">${escapeHtml(h.proName)}</div>
+          <div class="meta">${escapeHtml(h.proTrade)} · Start ${escapeHtml(h.startDate)} · ${escapeHtml(h.engagement)}</div>
+        </div>
+        <div style="display:flex; gap:.5rem; align-items:center;">
+          <span class="tag tag-${h.status === 'pending' ? 'pending' : (h.status === 'hired' ? 'active' : 'complete')}">${h.status}</span>
+          ${h.status === 'pending' ? `<button class="btn btn-sm" data-confirm="${h.id}">Confirm Hire</button>` : ''}
+        </div>
+      </li>
+    `).join('');
+    hiresList.querySelectorAll('[data-confirm]').forEach(b => b.addEventListener('click', () => {
+      MH.updateHire(b.dataset.confirm, { status: 'hired' });
+      MH.toast('Hire confirmed. Welcome to the household.');
+      setTimeout(() => location.reload(), 700);
+    }));
+  }
+
+  // Messages
+  const messagesList = document.getElementById('messages-list');
+  if (!messages.length) {
+    document.getElementById('messages-empty').style.display = 'block';
+  } else {
+    messagesList.innerHTML = messages.slice().reverse().map(m => {
+      const pro = MH.pro(m.proId);
+      return `
+        <li>
+          <div>
+            <div style="font-weight:500;">To ${escapeHtml(pro?.name || 'Professional')}</div>
+            <div class="meta">${escapeHtml(m.body)}</div>
+          </div>
+          <div class="meta">${new Date(m.createdAt).toLocaleDateString()}</div>
+        </li>
+      `;
+    }).join('');
+  }
+
+  // Profile form
+  const savedProfile = MH.get('mh_household', {});
+  for (const k of ['name','city','residences','staff','notes']) {
+    if (savedProfile[k] !== undefined) document.getElementById('hh-' + k).value = savedProfile[k];
+  }
+  document.getElementById('profile-form').addEventListener('submit', e => {
+    e.preventDefault();
+    MH.set('mh_household', {
+      name:       document.getElementById('hh-name').value,
+      city:       document.getElementById('hh-city').value,
+      residences: document.getElementById('hh-residences').value,
+      staff:      document.getElementById('hh-staff').value,
+      notes:      document.getElementById('hh-notes').value,
+    });
+    MH.toast('Household profile saved.');
+  });
+
+  // smooth-scroll active nav
+  document.querySelectorAll('.dash-nav a').forEach(a => {
+    a.addEventListener('click', () => {
+      document.querySelectorAll('.dash-nav a').forEach(x => x.classList.remove('active'));
+      a.classList.add('active');
+    });
+  });
+</script>
+</body>
+</html>

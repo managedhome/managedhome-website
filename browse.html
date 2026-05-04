@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Browse Professionals — ManagedHome</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<header class="site-header">
+  <nav class="nav">
+    <a href="index.html" class="brand">Managed<span>Home</span></a>
+    <ul class="nav-links">
+      <li><a href="browse.html" class="active">Browse Professionals</a></li>
+      <li><a href="apply.html">For Professionals</a></li>
+      <li><a href="how-it-works.html">How It Works</a></li>
+      <li><a href="about.html">About</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="login.html" class="btn btn-sm btn-ghost" data-auth-show="out">Sign In</a>
+      <a href="signup.html" class="btn btn-sm btn-primary" data-auth-show="out">Join</a>
+      <a href="dashboard-homeowner.html" class="btn btn-sm btn-ghost" data-auth-show="homeowner">My Dashboard</a>
+      <a href="dashboard-pro.html"        class="btn btn-sm btn-ghost" data-auth-show="pro">My Dashboard</a>
+      <button class="nav-toggle" aria-label="Menu">≡</button>
+    </div>
+  </nav>
+</header>
+
+<section class="page-banner">
+  <div class="container">
+    <span class="eyebrow">The Directory</span>
+    <h1>Household Professionals</h1>
+    <p>A curated directory of vetted house managers, estate managers, private chefs, and household staff. Refine the list to suit your home.</p>
+  </div>
+</section>
+
+<section style="padding-top: 3rem;">
+  <div class="container">
+    <div class="filters">
+      <div class="filter-group">
+        <label for="f-trade">Role</label>
+        <select id="f-trade">
+          <option value="">All Roles</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label for="f-city">Location</label>
+        <select id="f-city">
+          <option value="">Any Location</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label for="f-rate">Rate (max)</label>
+        <select id="f-rate">
+          <option value="">Any Rate</option>
+          <option value="50">Up to $50/hr</option>
+          <option value="75">Up to $75/hr</option>
+          <option value="100">Up to $100/hr</option>
+          <option value="150">Up to $150/hr</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label for="f-sort">Sort</label>
+        <select id="f-sort">
+          <option value="rating">Highest Rated</option>
+          <option value="reviews">Most Reviewed</option>
+          <option value="experience">Most Experienced</option>
+          <option value="rate-low">Rate · Low to High</option>
+          <option value="rate-high">Rate · High to Low</option>
+        </select>
+      </div>
+      <div class="filter-group" style="flex: 2; min-width: 220px;">
+        <label for="f-search">Search</label>
+        <input id="f-search" type="search" placeholder="Search by name or specialty…">
+      </div>
+    </div>
+
+    <div id="results-meta" class="muted" style="margin-bottom: 2rem; font-size: .85rem; letter-spacing: .06em;"></div>
+
+    <div class="pro-grid" id="pro-grid"></div>
+    <div id="empty-state" class="empty" style="display:none;">
+      <h3>No professionals match those filters.</h3>
+      <p>Try widening your search.</p>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">ManagedHome</div>
+        <p>A members' platform for household service. Quiet. Vetted. Considered.</p>
+      </div>
+      <div><h4>Homeowners</h4><ul><li><a href="browse.html">Browse Professionals</a></li><li><a href="how-it-works.html">How It Works</a></li><li><a href="signup.html">Create Account</a></li></ul></div>
+      <div><h4>Professionals</h4><ul><li><a href="apply.html">Apply</a></li><li><a href="how-it-works.html">Standards</a></li><li><a href="login.html">Sign In</a></li></ul></div>
+      <div><h4>Company</h4><ul><li><a href="about.html">About</a></li><li><a href="about.html#contact">Contact</a></li><li><a href="about.html#privacy">Privacy</a></li></ul></div>
+    </div>
+    <div class="footer-bottom"><span>© 2026 ManagedHome. All rights reserved.</span><span>Made for households that endure.</span></div>
+  </div>
+</footer>
+
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+<script>
+  const fTrade  = document.getElementById('f-trade');
+  const fCity   = document.getElementById('f-city');
+  const fRate   = document.getElementById('f-rate');
+  const fSort   = document.getElementById('f-sort');
+  const fSearch = document.getElementById('f-search');
+  const grid    = document.getElementById('pro-grid');
+  const meta    = document.getElementById('results-meta');
+  const empty   = document.getElementById('empty-state');
+
+  // populate filter selects
+  (window.MH_TRADES || []).forEach(t => {
+    const opt = document.createElement('option');
+    opt.value = t.id; opt.textContent = t.label;
+    fTrade.appendChild(opt);
+  });
+  [...new Set(window.MH_PROS.map(p => p.city))].sort().forEach(c => {
+    const opt = document.createElement('option');
+    opt.value = c; opt.textContent = c;
+    fCity.appendChild(opt);
+  });
+
+  // optional URL param
+  const params = new URLSearchParams(location.search);
+  if (params.get('trade')) fTrade.value = params.get('trade');
+
+  function render() {
+    let list = [...(window.MH_PROS || [])];
+
+    if (fTrade.value)  list = list.filter(p => p.trade === fTrade.value);
+    if (fCity.value)   list = list.filter(p => p.city === fCity.value);
+    if (fRate.value)   list = list.filter(p => p.rate <= +fRate.value);
+    const q = fSearch.value.trim().toLowerCase();
+    if (q) {
+      list = list.filter(p =>
+        p.name.toLowerCase().includes(q) ||
+        (p.specialties || []).some(s => s.toLowerCase().includes(q)) ||
+        MH.trade(p.trade).toLowerCase().includes(q)
+      );
+    }
+
+    const sort = fSort.value;
+    list.sort((a,b) => {
+      if (sort === 'rating')     return b.rating - a.rating;
+      if (sort === 'reviews')    return b.reviews - a.reviews;
+      if (sort === 'experience') return b.years - a.years;
+      if (sort === 'rate-low')   return a.rate - b.rate;
+      if (sort === 'rate-high')  return b.rate - a.rate;
+      return 0;
+    });
+
+    meta.textContent = `${list.length} ${list.length === 1 ? 'PROFESSIONAL' : 'PROFESSIONALS'}`;
+    empty.style.display = list.length ? 'none' : 'block';
+
+    grid.innerHTML = list.map(p => `
+      <a href="professional.html?id=${p.id}" class="pro-card">
+        <div class="pro-card-img" style="background-image:url('${p.photo}')"></div>
+        <div class="pro-card-body">
+          <div class="pro-card-name">${escapeHtml(p.name)}</div>
+          <div class="pro-card-trade">${escapeHtml(MH.trade(p.trade))} · ${escapeHtml(p.city)}</div>
+          <div class="pro-card-meta">
+            <span class="pro-card-rating">★ ${p.rating} <span class="muted">(${p.reviews})</span></span>
+            <span class="pro-card-rate">$${p.rate}/hr</span>
+          </div>
+        </div>
+      </a>
+    `).join('');
+  }
+
+  [fTrade, fCity, fRate, fSort].forEach(el => el.addEventListener('change', render));
+  fSearch.addEventListener('input', render);
+  render();
+</script>
+</body>
+</html>

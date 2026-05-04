@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Professional Dashboard — ManagedHome</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<header class="site-header">
+  <nav class="nav">
+    <a href="index.html" class="brand">Managed<span>Home</span></a>
+    <ul class="nav-links">
+      <li><a href="browse.html">Browse Professionals</a></li>
+      <li><a href="apply.html">For Professionals</a></li>
+      <li><a href="how-it-works.html">How It Works</a></li>
+      <li><a href="about.html">About</a></li>
+    </ul>
+    <div class="nav-actions">
+      <span class="muted" style="font-size:.78rem; letter-spacing:.18em; text-transform:uppercase;" data-user-name>Member</span>
+      <button id="signout" class="btn btn-sm btn-ghost">Sign Out</button>
+      <button class="nav-toggle" aria-label="Menu">≡</button>
+    </div>
+  </nav>
+</header>
+
+<div class="dash">
+  <aside class="dash-side">
+    <h4>Your Career</h4>
+    <ul class="dash-nav">
+      <li><a href="#overview" class="active">Overview</a></li>
+      <li><a href="#inquiries">Inquiries</a></li>
+      <li><a href="#engagements">Engagements</a></li>
+      <li><a href="#availability">Availability</a></li>
+    </ul>
+    <h4>Profile</h4>
+    <ul class="dash-nav">
+      <li><a href="#profile">Edit Profile</a></li>
+      <li><a href="#application">Application Status</a></li>
+      <li><a href="about.html#privacy">Privacy</a></li>
+    </ul>
+  </aside>
+
+  <main class="dash-main">
+    <div class="dash-head">
+      <div>
+        <span class="eyebrow">Professional</span>
+        <h1 style="margin-top:.5rem;">Welcome, <span data-user-name>Member</span>.</h1>
+      </div>
+      <a href="#profile" class="btn btn-primary">Edit Profile</a>
+    </div>
+
+    <div class="stat-grid" id="stat-grid"></div>
+
+    <section id="application" style="padding:0; margin-bottom:3rem;">
+      <h2 style="margin-bottom:1.25rem;">Application Status</h2>
+      <div class="dash-card" id="application-card">
+        <p class="muted">Your application status will appear here.</p>
+      </div>
+    </section>
+
+    <section id="inquiries" style="padding:0; margin-bottom:3rem;">
+      <h2 style="margin-bottom:1.25rem;">Inquiries from Households</h2>
+      <div class="dash-card">
+        <ul class="dash-list" id="inquiries-list"></ul>
+        <div id="inquiries-empty" class="empty" style="display:none; border:none; padding:1.5rem 0;">
+          <h3 style="font-weight:400;">No inquiries yet.</h3>
+          <p>Once your profile is approved, you'll begin receiving private introductions here.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="engagements" style="padding:0; margin-bottom:3rem;">
+      <h2 style="margin-bottom:1.25rem;">Engagements</h2>
+      <div class="dash-card">
+        <ul class="dash-list" id="engagements-list"></ul>
+        <div id="engagements-empty" class="empty" style="display:none; border:none; padding:1.5rem 0;">
+          <h3 style="font-weight:400;">No active engagements.</h3>
+          <p>Confirmed hires will be tracked here.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="availability" style="padding:0; margin-bottom:3rem;">
+      <h2 style="margin-bottom:1.25rem;">Availability</h2>
+      <form class="form" id="availability-form">
+        <div class="form-row">
+          <div class="field">
+            <label for="av-status">Status</label>
+            <select id="av-status">
+              <option value="open">Open to inquiries</option>
+              <option value="selective">Selective — long-term only</option>
+              <option value="placed">Currently placed</option>
+              <option value="paused">Paused</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="av-start">Earliest Start</label>
+            <input id="av-start" type="date">
+          </div>
+        </div>
+        <div class="field">
+          <label for="av-notes">Notes for placement team</label>
+          <textarea id="av-notes" placeholder="Travel preferences, residence types, dietary restrictions, etc."></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary" style="align-self:flex-start;">Save Availability</button>
+      </form>
+    </section>
+
+    <section id="profile" style="padding:0;">
+      <h2 style="margin-bottom:1.25rem;">Public Profile</h2>
+      <form class="form" id="profile-form">
+        <div class="form-row">
+          <div class="field"><label for="p-name">Display Name</label><input id="p-name" required></div>
+          <div class="field">
+            <label for="p-trade">Role</label>
+            <select id="p-trade" required></select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="field"><label for="p-city">City</label><input id="p-city" required></div>
+          <div class="field"><label for="p-rate">Rate (USD/hr)</label><input id="p-rate" type="number" min="20" max="500" required></div>
+        </div>
+        <div class="form-row">
+          <div class="field"><label for="p-years">Years of Experience</label><input id="p-years" type="number" min="0" max="60"></div>
+          <div class="field"><label for="p-languages">Languages</label><input id="p-languages" placeholder="English, French"></div>
+        </div>
+        <div class="field"><label for="p-specialties">Specialties</label><input id="p-specialties" placeholder="Estate Openings, Wine Cellar, Vendor Relations"></div>
+        <div class="field"><label for="p-bio">Biography</label><textarea id="p-bio" required></textarea></div>
+        <button type="submit" class="btn btn-primary" style="align-self:flex-start;">Save Profile</button>
+      </form>
+    </section>
+  </main>
+</div>
+
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+<script>
+  const u = MH.user();
+  if (!u) location.href = 'login.html';
+  if (u && u.role !== 'pro') location.href = 'dashboard-homeowner.html';
+
+  document.getElementById('signout').addEventListener('click', () => MH.signOut());
+
+  const apps = MH.applications().filter(a => a.email === u.email);
+  const myApp = apps[apps.length - 1];
+  const inquiries = MH.hires(); // demo: show all inquiries to the logged-in pro
+
+  // Stats
+  document.getElementById('stat-grid').innerHTML = `
+    <div class="stat"><div class="stat-label">Profile Status</div><div class="stat-value" style="font-size:1.4rem; font-family:var(--sans); font-weight:500;">${myApp ? 'Under Review' : 'Draft'}</div></div>
+    <div class="stat"><div class="stat-label">Inquiries</div><div class="stat-value mono-num">${inquiries.length}</div></div>
+    <div class="stat"><div class="stat-label">Confirmed Hires</div><div class="stat-value mono-num">${inquiries.filter(h => h.status === 'hired').length}</div></div>
+    <div class="stat"><div class="stat-label">Years</div><div class="stat-value mono-num">${u.years || 0}</div></div>
+  `;
+
+  // Application card
+  const appCard = document.getElementById('application-card');
+  if (myApp) {
+    appCard.innerHTML = `
+      <h3 style="font-weight:400; margin-bottom:.5rem;">${escapeHtml(myApp.firstName)} ${escapeHtml(myApp.lastName)} · ${escapeHtml(MH.trade(myApp.trade))}</h3>
+      <p class="muted">Submitted ${new Date(myApp.createdAt).toLocaleDateString()}.</p>
+      <div style="margin-top:1rem; display:flex; gap:.5rem; flex-wrap:wrap;">
+        <span class="tag tag-pending">Under Review</span>
+        <span class="tag">Background Check Pending</span>
+        <span class="tag">References Pending</span>
+      </div>
+      <p class="muted" style="margin-top:1.25rem;">Our team will respond within two business days. You will be notified by email when your profile goes live in the directory.</p>
+    `;
+  } else {
+    appCard.innerHTML = `<p class="muted" style="margin-bottom:1rem;">You haven't completed an application.</p><a href="apply.html" class="btn btn-sm btn-primary">Begin Application</a>`;
+  }
+
+  // Inquiries
+  const inqList = document.getElementById('inquiries-list');
+  if (!inquiries.length) {
+    document.getElementById('inquiries-empty').style.display = 'block';
+  } else {
+    inqList.innerHTML = inquiries.slice().reverse().map(h => `
+      <li>
+        <div>
+          <div style="font-weight:500;">From ${escapeHtml(h.homeowner || 'Household')}</div>
+          <div class="meta">${escapeHtml(h.engagement)} · Start ${escapeHtml(h.startDate)}</div>
+          <div class="meta" style="margin-top:.35rem; max-width:520px;">${escapeHtml((h.message || '').slice(0,160))}${(h.message || '').length > 160 ? '…' : ''}</div>
+        </div>
+        <div style="display:flex; gap:.5rem; flex-wrap:wrap; align-items:center;">
+          <span class="tag tag-${h.status === 'pending' ? 'pending' : (h.status === 'hired' ? 'active' : 'complete')}">${h.status}</span>
+          ${h.status === 'pending' ? `<button class="btn btn-sm" data-decline="${h.id}">Decline</button><button class="btn btn-sm btn-primary" data-accept="${h.id}">Accept</button>` : ''}
+        </div>
+      </li>
+    `).join('');
+    inqList.querySelectorAll('[data-accept]').forEach(b => b.addEventListener('click', () => {
+      MH.updateHire(b.dataset.accept, { status: 'hired' });
+      MH.toast('Inquiry accepted. The household has been notified.');
+      setTimeout(() => location.reload(), 700);
+    }));
+    inqList.querySelectorAll('[data-decline]').forEach(b => b.addEventListener('click', () => {
+      MH.updateHire(b.dataset.decline, { status: 'declined' });
+      MH.toast('Inquiry declined.');
+      setTimeout(() => location.reload(), 700);
+    }));
+  }
+
+  // Engagements (hired only)
+  const eng = inquiries.filter(h => h.status === 'hired');
+  const engList = document.getElementById('engagements-list');
+  if (!eng.length) {
+    document.getElementById('engagements-empty').style.display = 'block';
+  } else {
+    engList.innerHTML = eng.map(h => `
+      <li>
+        <div>
+          <div style="font-weight:500;">${escapeHtml(h.homeowner)}</div>
+          <div class="meta">Began ${escapeHtml(h.startDate)} · ${escapeHtml(h.engagement)}</div>
+        </div>
+        <span class="tag tag-active">Active</span>
+      </li>
+    `).join('');
+  }
+
+  // Profile prefill
+  const tradeSel = document.getElementById('p-trade');
+  (window.MH_TRADES || []).forEach(t => {
+    const o = document.createElement('option'); o.value = t.id; o.textContent = t.label; tradeSel.appendChild(o);
+  });
+  document.getElementById('p-name').value        = u.name || '';
+  document.getElementById('p-trade').value       = u.trade || '';
+  document.getElementById('p-city').value        = u.city || '';
+  document.getElementById('p-rate').value        = u.rate || '';
+  document.getElementById('p-years').value       = u.years || '';
+  document.getElementById('p-languages').value   = (u.languages || []).join(', ');
+  document.getElementById('p-specialties').value = (u.specialties || []).join(', ');
+  document.getElementById('p-bio').value         = u.bio || '';
+
+  document.getElementById('profile-form').addEventListener('submit', e => {
+    e.preventDefault();
+    const updated = {
+      ...u,
+      name:        document.getElementById('p-name').value.trim(),
+      trade:       document.getElementById('p-trade').value,
+      city:        document.getElementById('p-city').value.trim(),
+      rate:        +document.getElementById('p-rate').value,
+      years:       +document.getElementById('p-years').value,
+      languages:   document.getElementById('p-languages').value.split(',').map(s=>s.trim()).filter(Boolean),
+      specialties: document.getElementById('p-specialties').value.split(',').map(s=>s.trim()).filter(Boolean),
+      bio:         document.getElementById('p-bio').value.trim(),
+    };
+    MH.signIn(updated);
+    MH.toast('Profile saved.');
+  });
+
+  // Availability
+  const av = MH.get('mh_pro_availability', {});
+  if (av.status) document.getElementById('av-status').value = av.status;
+  if (av.start)  document.getElementById('av-start').value  = av.start;
+  if (av.notes)  document.getElementById('av-notes').value  = av.notes;
+  document.getElementById('availability-form').addEventListener('submit', e => {
+    e.preventDefault();
+    MH.set('mh_pro_availability', {
+      status: document.getElementById('av-status').value,
+      start:  document.getElementById('av-start').value,
+      notes:  document.getElementById('av-notes').value,
+    });
+    MH.toast('Availability updated.');
+  });
+
+  document.querySelectorAll('.dash-nav a').forEach(a => {
+    a.addEventListener('click', () => {
+      document.querySelectorAll('.dash-nav a').forEach(x => x.classList.remove('active'));
+      a.classList.add('active');
+    });
+  });
+</script>
+</body>
+</html>
